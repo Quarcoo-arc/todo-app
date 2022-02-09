@@ -53,6 +53,10 @@ button:hover {
   border: none;
 }
 
+#tasks {
+  margin: 1.5rem 0rem;
+}
+
 #tasks div {
   background-color: #db9d9d;
   border-radius: 0.5rem;

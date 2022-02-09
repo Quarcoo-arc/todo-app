@@ -9,6 +9,46 @@ const showClearAllBtn = () => {
   clearAllBtn.classList.remove("hidden");
 };
 
+taskList.addEventListener("dragover", (event) => {
+  event.preventDefault();
+  event.stopImmediatePropagation();
+});
+
+taskList.addEventListener("drop", (event) => {
+  if (event.target.tagName === "UL") {
+    event.preventDefault();
+    const data = event.dataTransfer.getData("text");
+    event.target.appendChild(document.getElementById(data));
+    event.stopImmediatePropagation();
+    // console.log(document.getElementById(data));
+  }
+});
+
+const taskClickHandler = (event) => {
+  //Stike-through
+  if (event.target.tagName === "DIV" || event.target.tagName === "LI") {
+    event.target.classList.toggle("strikeThrough");
+  } else if (event.target.tagName === "INPUT") {
+    //Select
+    if (!selectedTasks.includes(event.target.closest("div"))) {
+      selectedTasks.push(event.target.closest("div"));
+      console.log(selectedTasks);
+      //enable clear button
+      clearAllBtn.disabled = false;
+    } else {
+      //Deselect
+      selectedTasks = selectedTasks.filter(
+        (el) => el !== event.target.closest("div")
+      );
+      if (selectedTasks.length === 0) {
+        clearAllBtn.disabled = true;
+      }
+      console.log(selectedTasks);
+    }
+    console.log(event.target);
+  }
+};
+
 form.addEventListener("submit", (event) => {
   event.preventDefault();
   console.log("Submitting...");
@@ -23,30 +63,20 @@ form.addEventListener("submit", (event) => {
 
   const newTaskItem = document.createElement("div");
 
-  newTaskItem.innerHTML = `<input type="checkbox" name="" id="${id++}"><li>${input}<li>`;
+  newTaskItem.innerHTML = `<input type="checkbox" name="" id="checkbox-${id++}"><li>${input}<li>`;
 
-  newTaskItem.addEventListener("click", (event) => {
-    if (event.target.tagName === "DIV" || event.target.tagName === "LI") {
-      event.target.classList.toggle("strikeThrough");
-    } else if (event.target.tagName === "INPUT") {
-      if (!selectedTasks.includes(event.target.closest("div"))) {
-        selectedTasks.push(event.target.closest("div"));
-        console.log(selectedTasks);
+  newTaskItem.addEventListener("click", taskClickHandler);
 
-        //enable clear button
-        clearAllBtn.disabled = false;
-      } else {
-        selectedTasks = selectedTasks.filter(
-          (el) => el !== event.target.closest("div")
-        );
-        if (selectedTasks.length === 0) {
-          clearAllBtn.disabled = true;
-        }
-        console.log(selectedTasks);
-      }
-      console.log(event.target);
-    }
+  newTaskItem.id = `task-${id++}`;
+
+  newTaskItem.draggable = true;
+
+  newTaskItem.addEventListener("dragstart", (event) => {
+    event.dataTransfer.setData("text", event.target.id);
+    event.dataTransfer.effectAllowed = "move";
+    console.log("dragging");
   });
+
   taskList.append(newTaskItem);
   inputBox.value = "";
 });
