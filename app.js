@@ -4,6 +4,7 @@ const form = document.getElementById("form");
 const taskList = document.getElementById("tasks");
 let id = 0;
 let selectedTasks = [];
+let updatedElement;
 
 const showClearAllBtn = () => {
   clearAllBtn.classList.remove("hidden");
@@ -51,15 +52,22 @@ const taskClickHandler = (event) => {
 
 form.addEventListener("submit", (event) => {
   event.preventDefault();
+  const submitBtn = document.getElementById("submitBtn");
+  const inputBox = document.getElementById("input");
+
+  const input = inputBox.value;
+
+  if (submitBtn.textContent === "Update") {
+    updatedElement.querySelector("li").textContent = input;
+    submitBtn.textContent = "Submit";
+    inputBox.value = "";
+    return;
+  }
   console.log("Submitting...");
   console.log(event.target);
 
   //Show ClearAll Button
   showClearAllBtn();
-
-  const inputBox = document.getElementById("input");
-
-  const input = inputBox.value;
 
   const newTaskItem = document.createElement("div");
 
@@ -75,6 +83,22 @@ form.addEventListener("submit", (event) => {
     event.dataTransfer.setData("text", event.target.id);
     event.dataTransfer.effectAllowed = "move";
     console.log("dragging");
+  });
+
+  newTaskItem.addEventListener("dblclick", (event) => {
+    event.preventDefault();
+
+    updatedElement = event.target;
+    const copiedText = event.target.querySelector("li").textContent;
+
+    const inputField = document.getElementById("input");
+    inputField.value = copiedText;
+    inputField.select();
+
+    const submitBtn = document.getElementById("submitBtn");
+    submitBtn.textContent = "Update";
+
+    console.log(event.target.querySelector("li"));
   });
 
   taskList.append(newTaskItem);
