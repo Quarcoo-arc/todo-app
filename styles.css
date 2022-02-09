@@ -8,7 +8,7 @@ body {
   font-family: Verdana, Geneva, Tahoma, sans-serif;
 }
 
-input:first-of-type {
+input[type="text"] {
   border: 0.1rem solid #a56565;
   border-radius: 0.4rem;
   padding: 0.2rem;
@@ -39,6 +39,11 @@ button {
   border: none;
 }
 
+#submitBtn:hover,
+button:hover {
+  background-color: rgba(0, 0, 0, 0.6);
+}
+
 #submitBtn {
   background-color: #a56565;
   color: white;
@@ -46,10 +51,6 @@ button {
   border-radius: 0.4rem;
   box-shadow: none;
   border: none;
-}
-
-#submitBtn:hover {
-  background-color: rgba(0, 0, 0, 0.6);
 }
 
 #tasks div {
@@ -63,7 +64,7 @@ button {
 }
 
 div input {
-  margin: 0 -10vw;
+  margin: 0 1vw;
 }
 
 input[type="checkbox"]:checked {
@@ -81,4 +82,17 @@ li {
 
 .hidden {
   display: none;
+}
+
+#clear {
+  margin-top: 2.5rem;
+  margin-left: 55vw;
+  padding: 0.4rem;
+  font-size: 0.9rem;
+  box-shadow: 0.5px 2px 2px #807575;
+}
+
+#clear:disabled {
+  background-color: rgba(0, 0, 0, 0.342);
+  box-shadow: none;
 }
