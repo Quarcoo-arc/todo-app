@@ -21,7 +21,6 @@ taskList.addEventListener("drop", (event) => {
     const data = event.dataTransfer.getData("text");
     event.target.appendChild(document.getElementById(data));
     event.stopImmediatePropagation();
-    // console.log(document.getElementById(data));
   }
 });
 
@@ -33,7 +32,6 @@ const taskClickHandler = (event) => {
     //Select
     if (!selectedTasks.includes(event.target.closest("div"))) {
       selectedTasks.push(event.target.closest("div"));
-      console.log(selectedTasks);
       //enable clear button
       clearAllBtn.disabled = false;
     } else {
@@ -44,9 +42,7 @@ const taskClickHandler = (event) => {
       if (selectedTasks.length === 0) {
         clearAllBtn.disabled = true;
       }
-      console.log(selectedTasks);
     }
-    console.log(event.target);
   }
 };
 
@@ -63,8 +59,6 @@ form.addEventListener("submit", (event) => {
     inputBox.value = "";
     return;
   }
-  console.log("Submitting...");
-  console.log(event.target);
 
   //Show ClearAll Button
   showClearAllBtn();
@@ -82,7 +76,6 @@ form.addEventListener("submit", (event) => {
   newTaskItem.addEventListener("dragstart", (event) => {
     event.dataTransfer.setData("text", event.target.id);
     event.dataTransfer.effectAllowed = "move";
-    console.log("dragging");
   });
 
   newTaskItem.addEventListener("dblclick", (event) => {
@@ -97,8 +90,6 @@ form.addEventListener("submit", (event) => {
 
     const submitBtn = document.getElementById("submitBtn");
     submitBtn.textContent = "Update";
-
-    console.log(event.target.querySelector("li"));
   });
 
   taskList.append(newTaskItem);
